@@ -5,7 +5,7 @@
       <div class="input-wrapper">
         <h4>Add Console</h4>
         <div class="interactables">
-            <input class="text-box" type="text"/>
+            <input v-model="this.consoleInput" class="text-box" type="text"/>
             <div role="button" class="add-button">Add</div>
         </div>
       </div>
@@ -13,7 +13,7 @@
         <div class="list-container">
           <h4>Consoles</h4>
           <div class="list-box">
-            <ConsoleMember v-for="value in consoles" :key="value.id" :console="value" @get-selected-console="setCurrentConsole"></ConsoleMember>
+            <ConsoleMember v-for="value in consoles" :key="value.id" :console="value" @get-selected-console="setCurrentConsole"/>
           </div>
         </div>
       </div>
@@ -22,7 +22,11 @@
       <div class="input-wrapper">
         <h4>Add Game</h4>
           <div class="interactables">
-            <input class="text-box" type="text"/>
+            <input v-model="this.gameInput" @keyup="this.searchForGame(this.gameInput)" class="text-box" type="text"/>
+            <div id="search-list-container" class="search-list-container">
+              <p class="search-list-member" v-for="value in idgbResponse" :key="value.id">{{ value.name }}</p>
+            </div>
+            
             <div role="button" class="add-button">Add</div>
         </div>
       </div>
@@ -31,7 +35,8 @@
           <h4>{{ currentConsoleName }} Games</h4>
           <div class="list-box">
             <template v-for="value in games" :key="value.id">
-              <GameMember v-if="value['belongs-to-console'] == this.currentConsoleId" :game="value"></GameMember>
+              <GameMember v-if="value['belongs-to-console'] == this.currentConsoleId" :game="value"/>
+              
             </template>
           </div>
         </div>
@@ -43,6 +48,7 @@
 <script>
 import ConsoleMember from '@/components/content/ConsoleMember.vue';
 import GameMember from '@/components/content/GameMember.vue';
+import axios from 'axios';
 export default {
   name: 'ManageView',
   props: ['user', 'consoles', 'games', 'token'],
@@ -57,6 +63,15 @@ export default {
       currentConsoleName: '',
       currentConsoleId: 0,
       testThing: '',
+      consoleInput: '',
+      gameInput: '',
+      idgbClientId: 'di4ew7ow32kxxcgie9bzbfc0ear8u5',
+      idgbResponse: {},
+      idgbCreds: {
+        access_token: "zan1k18v95233iy51sq6c15dlk8a53",
+        expires_in: 4802039,
+        token_type: "bearer"
+      }
     }
   },
   methods: {
@@ -65,6 +80,31 @@ export default {
       this.currentConsoleId = passedConsole.id;
       this.testThing = this.games[0];
       console.log(this.testThing["belongs-to-console"])
+    },
+    searchForGame(gameInput) {
+      let requestAuthHeader = {['Client-ID']: this.idgbClientId, Authorization:'Bearer zan1k18v95233iy51sq6c15dlk8a53'}
+      console.log(requestAuthHeader)
+      axios.post('http://localhost:8080/https://api.igdb.com/v4/games', 'search "' + this.gameInput + '"; fields name;', {
+        headers: requestAuthHeader
+      })
+      .then(response => this.handleIdgbReturn(response.data)).catch((error) => console.log(error))
+      console.log(gameInput)
+      console.log('search "' + this.gameInput + '"; fields name;')
+      this.controlBorder(this.gameInput);
+      
+    },
+    handleIdgbReturn(res) {
+      this.idgbResponse = res;
+      console.log(this.idgbResponse)
+    },
+    controlBorder(gameInput) {
+      let searchListContainer = document.getElementById('search-list-container');
+      if (gameInput != '') {
+        searchListContainer.style.border = '1px solid white';
+      }
+      else {
+        searchListContainer.style.border = 'none';
+      }
     }
   }
 }
@@ -124,10 +164,12 @@ h4 {
   border-bottom: 1px solid #b0b5bd;
   padding-bottom: 5px;
   padding-left: 5px;
+  
 }
 
 .interactables {
   display: flex;
+  position: relative;
   align-content: center;
   justify-content: center;
   margin-top: 2.5px;
@@ -143,6 +185,25 @@ h4 {
   background-color:#1c1d1f;
   color: white;
   border-radius: 2px;
+}
+.search-list-container {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  background-color: black;
+  min-width: 270px;
+  top: 27px;
+  left: 0;
+  border-radius: 3px;
+}
+.search-list-member {
+  color: white;
+  text-align: left;
+  margin: 0;
+  padding: 10px;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  border-bottom: 1px dashed grey;
 }
 .add-button {
   display: flex;
@@ -181,6 +242,7 @@ h4 {
   flex: 1;
   width: 100%;
   overflow-y: auto;
+  overflow-x:hidden ;
 }
 
 </style>
