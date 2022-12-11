@@ -1,6 +1,8 @@
 <template>
   <HeaderComponent class="header"/>
-  <router-view :user=this.userInfo :consoles=this.userConsoles :games=this.userGames :token=this.userToken @emitInfo="getUserInfo" class="content"/>
+  <div class="content">
+    <router-view :user=this.userInfo :consoles=this.userConsoles :games=this.userGames :token=this.userToken @emitInfo="getUserInfo"/>
+  </div>
   <FooterComponent class="footer"/>
 </template>
 
@@ -46,14 +48,14 @@ export default {
   color: #2c3e50;
   margin: 0;
 }
-
 .content {
   display: flex;
-  padding-bottom: 2.5em;
+  flex-direction: column;
   width: 100%;
-  height: auto;
-  z-index: 1;
+  align-items: center;
+  padding-bottom: 2.5em;
 }
+
 .footer {
   position: absolute;
   bottom: 0;

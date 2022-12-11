@@ -13,7 +13,7 @@
         <div class="list-container">
           <h4>Consoles</h4>
           <div class="list-box">
-            <div class="list-member-wrapper" v-for="value in consoles" :key="value.id"><p>{{ value.name }}</p></div>
+            <ConsoleMember v-for="value in consoles" :key="value.id" :console="value" @get-selected-console="setCurrentConsole"></ConsoleMember>
           </div>
         </div>
       </div>
@@ -28,9 +28,11 @@
       </div>
       <div class="list-container-wrapper">
         <div class="list-container">
-          <h4>(Console Name) Games</h4>
+          <h4>{{ currentConsoleName }} Games</h4>
           <div class="list-box">
-            <div class="list-member-wrapper" v-for="value in games" :key="value.id"><p>{{ value.name }}</p></div>
+            <template v-for="value in games" :key="value.id">
+              <GameMember v-if="value['belongs-to-console'] == this.currentConsoleId" :game="value"></GameMember>
+            </template>
           </div>
         </div>
       </div>
@@ -39,10 +41,31 @@
 </template>
 
 <script>
+import ConsoleMember from '@/components/content/ConsoleMember.vue';
+import GameMember from '@/components/content/GameMember.vue';
 export default {
   name: 'ManageView',
   props: ['user', 'consoles', 'games', 'token'],
   created () {
+  },
+  components: {
+    ConsoleMember,
+    GameMember
+  },
+  data() {
+    return {
+      currentConsoleName: '',
+      currentConsoleId: 0,
+      testThing: '',
+    }
+  },
+  methods: {
+    setCurrentConsole(passedConsole) {
+      this.currentConsoleName = passedConsole.name;
+      this.currentConsoleId = passedConsole.id;
+      this.testThing = this.games[0];
+      console.log(this.testThing["belongs-to-console"])
+    }
   }
 }
 </script>
@@ -63,16 +86,12 @@ h4 {
   color: white;
 }
 
-
 .content-wrapper {
   display: flex;
-  flex: 9;
   flex-direction: row;
   background-color: #0a0b0f;
-  margin-right: 5em;
-  margin-left: 5em;
-  max-width: 800px;
   width: 100%;
+  max-width: 800px;
   padding: 0;
   height: 100%;
   box-shadow: 0px 2px 32px -2px rgba(0,0,0,1);
@@ -80,7 +99,7 @@ h4 {
   -moz-box-shadow: 0px 2px 32px -2px rgba(0,0,0,1);
   border: 1px solid #232425;
   overflow-x: hidden;
-  max-height: 750px;
+  min-height: 750px;
 }
 .column1 {
   display: flex;
@@ -89,7 +108,6 @@ h4 {
   margin: 10px;
   margin-right: 5px;
   border: 1px solid #b0b5bd;
-  overflow: hidden;
 }
 .column2 {
   display: flex;
@@ -163,20 +181,6 @@ h4 {
   flex: 1;
   width: 100%;
   overflow-y: auto;
-}
-.list-member-wrapper {
-  display: flex;
-  background-color: #1c1d1f;
-  margin: 7px;
-  margin-bottom: 0;
-  min-height: 100px;
-  border-radius: 3px;
-  border: 1px solid white;
-}
-.list-member-wrapper p {
-  margin: 0;
-  font-size: 20px;
-  color: white;
 }
 
 </style>
