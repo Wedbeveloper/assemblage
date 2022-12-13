@@ -1,14 +1,18 @@
 <template>
     <div class="form-wrapper">
       <div class="input-wrapper">
-          <label for="email-input">Email:</label>
+        <div class="cred-wrapper">
+          <label for="email-input"><h4>Email:</h4></label>
           <input type="email" name="email-input" v-model="email">
-
-          <label for="password-input">Password</label>
+        </div>
+        <div class="cred-wrapper">
+          <label for="password-input"><h4>Password</h4></label>
           <input type="password" name="password-input" v-model="password">
-
-          <button @click="(login())">Log In</button>
+        </div>
+          <div @click="(login())" role="button" class="login-button"><p class="sign-up">Log In</p></div>
+          <div class="forgot-password-wrapper"><p>Forgot Your Password?</p></div>
       </div>
+      
     </div>
 </template>
 
@@ -72,7 +76,7 @@ export default {
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    height: 100%;
+    height: 700px;
 }
 .input-wrapper {
     display: flex;
@@ -82,5 +86,43 @@ export default {
     background-color: black;
     padding: 50px;
     border-radius: 5px;
+    height: 60%;
+    width: 300px;
+}
+.cred-wrapper{
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 20px;
+  
+}
+h4 {
+  margin: 2px;
+  text-align: left;
+  border-left: 4px solid white;
+  margin-left: 5px;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  padding-left: 5px;
+  color: white;
+}
+.login-button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #0a0b0f;
+    margin: 5px;
+    height: 35px;
+    min-width: 90px;
+    border: 1px solid #b0b5bd;
+    border-radius: 2px;
+}
+.login-button:hover {
+    background-color: #640000;
+    cursor: pointer;
+}
+.login-button p {
+    margin: 0;
+    text-align: center;
+    color: white;
 }
 </style>

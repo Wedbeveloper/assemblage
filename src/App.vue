@@ -1,7 +1,7 @@
 <template>
   <HeaderComponent class="header"/>
   <div class="content">
-    <router-view :user=this.userInfo :consoles=this.userConsoles :games=this.userGames :token=this.userToken @emitInfo="getUserInfo"/>
+    <router-view :user=this.userInfo :consoles=this.userConsoles :games=this.userGames :token=this.userToken @emitInfo="getUserInfo" :key="$route.fullPath"/>
   </div>
   <FooterComponent class="footer"/>
 </template>

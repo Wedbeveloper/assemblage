@@ -1,6 +1,6 @@
 <template>
     <div @click="$emit('get-selected-console', this.emittedAttributes)" class="list-member-wrapper">
-        <div class="console-logo">Image</div>
+        <img class="console-logo" :src="this.consoleLogo"/>
         <p class="console-name">{{ consoleName }}</p>
         <div class="delete-button-wrapper">
 
@@ -56,8 +56,7 @@ export default {
   color: white;
 }
 .console-logo {
-    flex: 1;
-    width: 100%;
+    width:20%;
 }
 .console-name {
     flex: 3;
