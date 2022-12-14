@@ -26,8 +26,9 @@ export default {
     },
     methods: {
         deleteWithAlert(thisConsole) {
-            alert("Are you sure you want to delete " + thisConsole.name + "? All of its games will also be deleted!")
-            console.log(thisConsole)
+            if(confirm("Are you sure you want to delete " + thisConsole.name + "? All of its games will also be deleted!")) {
+                this.$emit('delete-console',this.consoleId)
+            }
         }
     }
 }

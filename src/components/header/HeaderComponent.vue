@@ -9,18 +9,40 @@
             <h3>Personal Collection Application</h3>
         </div>
         <div class="login-wrapper">
-            <div @click="$router.push('/login')" role="button" class="login-button"><p>Login</p></div>
-            <div role="button" class="login-button"><p class="sign-up">Sign-up</p></div>
+            <div v-if="this.isUserFetched === false" @click="$router.push('/login')" role="button" class="login-button"><p>Login</p></div>
+            <div v-if="this.isUserFetched === false" role="button" class="login-button"><p class="sign-up">Sign-up</p></div>
+            <div v-else role="button" class="login-button" @click="logOut()"><p>Log Out</p></div>
         </div>
     </div>
     <NavBar/>
 </template>
 <script>
 
-import NavBar from './NavBar.vue'
+import NavBar from './NavBar.vue';
+import axios from 'axios';
 export default {
+    name: 'HeaderComponent',
+    props: ['isUserFetched', 'token'],
     components: {
         NavBar
+    },
+    data() {
+        return {
+            userSignedIn: this.isUserFetched
+        }
+    },
+    methods: {
+        logOut() {
+            console.log(this.token)
+        let requestAuthHeader = {'content-type':'application/json',Authorization:'Bearer ' + this.token}
+        axios.post('https://api.gooeybonez.com/api/logout', '',{headers: requestAuthHeader})
+            .then(response => this.pushHome(response.data)).catch((error) => console.log(error))
+        },
+        pushHome(res) {
+            console.log(res);
+            this.$router.push('/home')
+            this.$emit('logout', false)
+        }
     }
 }
 </script>

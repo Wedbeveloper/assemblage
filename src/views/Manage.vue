@@ -16,7 +16,7 @@
         <div class="list-container">
           <h4>Consoles</h4>
           <div class="list-box">
-            <ConsoleMember v-for="value in consolesInList" :key="value.id" :console="value" @get-selected-console="setCurrentConsoleGames"/>
+            <ConsoleMember v-for="value in consolesInList" :key="value.id" :console="value" @get-selected-console="setCurrentConsoleGames" @delete-console="deleteConsoleAndGames"/>
           </div>
         </div>
       </div>
@@ -143,7 +143,6 @@ export default {
       document.getElementById(container).style.display = 'none';
     },
     setCurrentConsoleThenAdd(consoleName){
-      console.log("console name: " + consoleName)
       let requestAuthHeader = {['Client-ID']: this.idgbClientId, Authorization:'Bearer zan1k18v95233iy51sq6c15dlk8a53'}
       axios.post('http://localhost:8080/https://api.igdb.com/v4/platforms', 'search "' + consoleName + '"; fields name, platform_logo, slug;', {
         headers: requestAuthHeader
@@ -183,8 +182,16 @@ export default {
       axios.post('http://localhost:8080/https://api.gooeybonez.com/api/consoles', JSON.stringify(consoleToSend), {
         headers: requestAuthHeader
       })
-      .then(response => this.consolesInList.push(response.data)).catch((error) => console.log(error))
-      ;
+      .then(response => this.consolesInList.push(response.data)).catch((error) => console.log(error));
+    },
+    deleteConsoleAndGames(consoleID) {
+      let requestAuthHeader = {'content-type':'application/json',Authorization:'Bearer ' + this.token}
+      axios.post('http://localhost:8080/https://api.gooeybonez.com/api/games/console/'+ consoleID, {headers: requestAuthHeader})
+      .then(response => this.deleteConsoleAndUpdateList(response.data, consoleID)).catch((error) => console.log(error));
+    },
+    deleteConsoleAndUpdateList(res, consoleId) {
+      console.log(res)
+      this.consolesInList.filter(console => console.id != consoleId)
     }
   }
 }

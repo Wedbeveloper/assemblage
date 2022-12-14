@@ -1,5 +1,5 @@
 <template>
-  <HeaderComponent class="header"/>
+  <HeaderComponent :token=this.userToken :isUserFetched=this.isUserFetched class="header" @logout="logOut" />
   <div class="content">
     <router-view :user=this.userInfo :consoles=this.userConsoles :games=this.userGames :token=this.userToken @emitInfo="getUserInfo" :key="$route.fullPath"/>
   </div>
@@ -23,7 +23,8 @@ export default {
       userInfo: {},
       userToken: '',
       userConsoles: [],
-      userGames: []
+      userGames: [],
+      isUserFetched: false
     }
   },
   methods: {
@@ -33,6 +34,11 @@ export default {
       this.userToken = userInfo[0].token;
       this.userConsoles = userInfo[1];
       this.userGames = userInfo[2];
+      this.isUserFetched = userInfo[3];
+      console.log("Logged in?: " + this.isUserFetched)
+    },
+    logOut(loggedOut) {
+      this.isUserFetched = loggedOut;
     }
   }
 
