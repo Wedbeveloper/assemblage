@@ -30,14 +30,14 @@
               <p @click="this.setGameTextValAndHide(value.name, 'search-list-game-container')" class="search-list-member" v-for="value in idgbGameResponse" :key="value.id">{{ value.name }}</p>
             </div>
             
-            <div role="button" class="add-button">Add</div>
+            <div @click="this.setCurrentGameThenAdd(this.gameInput)" role="button" class="add-button">Add</div>
         </div>
       </div>
       <div class="list-container-wrapper">
         <div class="list-container">
           <h4>{{ currentConsoleName }} Games</h4>
           <div class="list-box">
-            <template v-for="value in games" :key="value.id">
+            <template v-for="value in gamesInList" :key="value.id">
               <GameMember v-if="value['belongs-to-console'] == this.currentConsoleId" :game="value"/>
             </template>
           </div>
@@ -63,69 +63,61 @@ export default {
   data() {
     return {
       consolesInList: this.consoles,
+      gamesInList: this.games,
       currentConsoleName: '',
       currentConsoleId: 0,
-      testThing: '',
       consoleInput: '',
       gameInput: '',
       idgbClientId: 'di4ew7ow32kxxcgie9bzbfc0ear8u5',
       idgbResponse: {},
       idgbGameResponse: {},
       idgbConsoleResponse: {},
-      idgbCreds: {
-        access_token: "zan1k18v95233iy51sq6c15dlk8a53",
-        expires_in: 4802039,
-        token_type: "bearer"
-      },
       addedGame: {},
       addedConsole: {},
     }
   },
   methods: {
+    //Console Component Emit Handler
     setCurrentConsoleGames(passedConsole) {
       this.currentConsoleName = passedConsole.name;
       this.currentConsoleId = passedConsole.id;
-      this.testThing = this.games[0];
-      console.log(this.testThing["belongs-to-console"])
     },
+
+    //Text Input Console Search Handler
     searchForConsole(consoleInput) {
       let requestAuthHeader = {['Client-ID']: this.idgbClientId, Authorization:'Bearer zan1k18v95233iy51sq6c15dlk8a53'}
-      console.log(requestAuthHeader)
       axios.post('http://localhost:8080/https://api.igdb.com/v4/platforms', 'search "' + consoleInput + '"; fields name;', {
         headers: requestAuthHeader
       })
       .then(response => this.handleIdgbConsoleReturn(response.data)).catch((error) => console.log(error))
-      console.log(consoleInput)
-      console.log('search "' + consoleInput + '"; fields name;')
       let currentContainer = document.getElementById('search-list-console-container')
       this.controlBorder(consoleInput, currentContainer);
       if(currentContainer.style.display !== 'flex') {
         currentContainer.style.display = 'flex';
       } 
     },
+    handleIdgbConsoleReturn(res) {
+      this.idgbConsoleResponse = res;
+    },
+
+    //Text Input Game Search Handler
     searchForGame(gameInput) {
       let requestAuthHeader = {['Client-ID']: this.idgbClientId, Authorization:'Bearer zan1k18v95233iy51sq6c15dlk8a53'}
-      console.log(requestAuthHeader)
       axios.post('http://localhost:8080/https://api.igdb.com/v4/games', 'search "' + gameInput + '"; fields name, cover;', {
         headers: requestAuthHeader
       })
       .then(response => this.handleIdgbGameReturn(response.data)).catch((error) => console.log(error))
-      console.log(gameInput)
-      console.log('search "' + gameInput + '"; fields name;')
       let currentContainer = document.getElementById('search-list-game-container')
       this.controlBorder(gameInput, currentContainer);
       if(currentContainer.style.display !== 'flex') {
         currentContainer.style.display = 'flex';
       } 
     },
-    handleIdgbConsoleReturn(res) {
-      this.idgbConsoleResponse = res;
-      console.log("Returned Consoles: " + this.idgbConsoleResponse)
-    },
     handleIdgbGameReturn(res) {
       this.idgbGameResponse = res;
-      console.log("Returned Games: " + this.idgbGameResponse)
     },
+
+    //Search Results Border Control
     controlBorder(input, container) {
       if (input != '') {
         container.style.border = '1px solid white';
@@ -134,14 +126,20 @@ export default {
         container.style.border = 'none';
       }
     },
-    setGameTextValAndHide(selectedText, container) {
-      this.gameInput = selectedText;
-      document.getElementById(container).style.display = 'none';
-    },
+
+    //Console Search Return Member Click Handler
     setConsoleTextValAndHide(selectedText, container) {
       this.consoleInput = selectedText;
       document.getElementById(container).style.display = 'none';
     },
+
+    //Game Search Return Member Click Handler
+    setGameTextValAndHide(selectedText, container) {
+      this.gameInput = selectedText;
+      document.getElementById(container).style.display = 'none';
+    },
+
+    //Console Add Button Handler
     setCurrentConsoleThenAdd(consoleName){
       let requestAuthHeader = {['Client-ID']: this.idgbClientId, Authorization:'Bearer zan1k18v95233iy51sq6c15dlk8a53'}
       axios.post('http://localhost:8080/https://api.igdb.com/v4/platforms', 'search "' + consoleName + '"; fields name, platform_logo, slug;', {
@@ -153,8 +151,6 @@ export default {
     handleAddedConsoleReturn(res) {
       this.addedConsole = res[0];
       this.getConsoleLogo(this.addedConsole.platform_logo)
-      console.log("Console logo: " + this.addedConsole.platform_logo)
-      console.log(JSON.stringify(this.addedConsole))
     },
     getConsoleLogo(logoID) {
       let request = "'fields url; where id = " + logoID + ";'"
@@ -163,14 +159,11 @@ export default {
         headers: requestAuthHeader
       })
       .then(response => this.setPlatformLogoAndAdd(response.data)).catch((error) => console.log(error))
-      console.log(request)
     },
     
-    setPlatformLogoAndAdd(res) {
+    //Get Console Logo Then Push Console To My API
+    async setPlatformLogoAndAdd(res) {
       this.addedConsole.logo = res[0].url;
-      console.log("Added console attributes: " + JSON.stringify(this.addedConsole))
-      console.log("Current User: " + JSON.stringify(this.user))
-
       let consoleToSend = {
         'belongs-to-user': this.user.id,
         name: this.addedConsole.name,
@@ -184,14 +177,72 @@ export default {
       })
       .then(response => this.consolesInList.push(response.data)).catch((error) => console.log(error));
     },
-    deleteConsoleAndGames(consoleID) {
+
+    //Handle Console Delete Button
+    async deleteConsoleAndGames(consoleID) {
+      let url = 'https://api.gooeybonez.com/api/games/console/'+ consoleID
       let requestAuthHeader = {'content-type':'application/json',Authorization:'Bearer ' + this.token}
-      axios.post('http://localhost:8080/https://api.gooeybonez.com/api/games/console/'+ consoleID, {headers: requestAuthHeader})
+      axios.delete(url, {headers: requestAuthHeader})
       .then(response => this.deleteConsoleAndUpdateList(response.data, consoleID)).catch((error) => console.log(error));
+      console.log(url)
     },
-    deleteConsoleAndUpdateList(res, consoleId) {
+    async deleteConsoleAndUpdateList(res, consoleId) {
+      this.logHttpResponse(res);
+      let updatedList = this.consolesInList.filter(console => console.id !== consoleId)
+      let url = 'https://api.gooeybonez.com/api/consoles/'+ consoleId
+      let requestAuthHeader = {'content-type':'application/json',Authorization:'Bearer ' + this.token}
+      axios.delete(url, {headers: requestAuthHeader})
+      .then(response => this.logHttpResponse(response.data)).catch((error) => console.log(error));
+      this.consolesInList = updatedList;
+      this.currentConsoleName = '';
+    },
+
+
+     //Game Add Button Handler
+     setCurrentGameThenAdd(gameName){
+      gameName = '"' + gameName + '"'
+      let request = "'fields name, cover, slug, first_release_date; where name = " + gameName + ";'"
+      console.log(request)
+      let requestAuthHeader = {['Client-ID']: this.idgbClientId, Authorization:'Bearer zan1k18v95233iy51sq6c15dlk8a53'}
+      axios.post('http://localhost:8080/https://api.igdb.com/v4/games', request, {
+        headers: requestAuthHeader
+      })
+      .then(response => this.handleAddedGameReturn(response.data)).catch((error) => console.log(error))
+      
+    },
+    handleAddedGameReturn(res) {
+      this.addedGame = res[0];
+      this.getGameCover(this.addedGame.cover)
+    },
+    getGameCover(coverID) {
+      let request = "'fields url; where id = " + coverID + ";'"
+      let requestAuthHeader = {['Client-ID']: this.idgbClientId, Authorization:'Bearer zan1k18v95233iy51sq6c15dlk8a53'}
+      axios.post('http://localhost:8080/https://api.igdb.com/v4/covers', request , {
+        headers: requestAuthHeader
+      })
+      .then(response => this.setGameCoverAndAdd(response.data)).catch((error) => console.log(error))
+    },
+    async setGameCoverAndAdd(res) {
+      this.addedGame.cover = res[0].url;
+      let gameToSend = {
+        'belongs-to-console': this.currentConsoleId,
+        'belongs-to-user': this.user.id,
+        name: this.addedGame.name,
+        'cover-art': this.addedGame.cover,
+        release: this.addedGame.first_release_date,
+        slug: this.addedGame.slug
+        
+
+      }
+      console.log('Game to Send: ' + JSON.stringify(gameToSend))
+      let requestAuthHeader = {'content-type':'application/json',Authorization:'Bearer ' + this.token}
+      axios.post('http://localhost:8080/https://api.gooeybonez.com/api/games', JSON.stringify(gameToSend), {
+        headers: requestAuthHeader
+      })
+      .then(response => this.gamesInList.push(response.data)).catch((error) => console.log(error));
+    },
+    logHttpResponse(res) {
       console.log(res)
-      this.consolesInList.filter(console => console.id != consoleId)
     }
   }
 }
@@ -212,7 +263,6 @@ h4 {
   padding-left: 5px;
   color: white;
 }
-
 .content-wrapper {
   display: flex;
   flex-direction: row;
@@ -244,7 +294,6 @@ h4 {
   margin-left: 5px;
   border: 1px solid #b0b5bd;
 }
-
 .input-wrapper {
   border: 1px solid black;
   background-color: #171923;
@@ -253,7 +302,6 @@ h4 {
   padding-left: 5px;
   
 }
-
 .interactables {
   display: flex;
   position: relative;
@@ -322,7 +370,6 @@ h4 {
     background-color: #640000;
     cursor: pointer;
 }
-
 .list-container-wrapper {
   background-color: #171923;
   flex: 1 0 auto;
@@ -345,5 +392,4 @@ h4 {
   overflow-y: auto;
   overflow-x:hidden ;
 }
-
 </style>

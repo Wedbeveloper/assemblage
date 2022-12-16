@@ -1,6 +1,6 @@
 <template>
     <div class="list-member-wrapper">
-        <div class="game-logo">Image</div>
+        <img class="game-cover" :src="this.gameCover"/>
         <p class="game-name">{{ gameName }}</p>
         <div class="delete-button-wrapper">
             <i @click="deleteWithAlert(this.game)" class="fas fa-solid fa-trash-can"></i>
@@ -14,6 +14,7 @@ export default {
     data() {
         return {
             gameName: this.game.name,
+            gameCover: this.game['cover-art']
         }
     },
     methods: {
@@ -47,9 +48,8 @@ export default {
   font-size: 20px;
   color: white;
 }
-.game-logo {
-    flex: 1;
-    width: 100%;
+.game-cover {
+    width: 20%;
 }
 .game-name {
     flex: 3;
