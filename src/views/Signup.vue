@@ -2,19 +2,28 @@
     <div class="form-wrapper">
       <div class="input-wrapper">
           <div class="greeting-wrapper">
-            <h3>Log in to Manage Your Collection</h3>
+            <h3>Signup to Get Organized!</h3>
           </div>
-          <div class="email-password-container"><div class="cred-wrapper">
+          <div class="email-password-container">
+          <div class="cred-wrapper">
             <label for="email-input"><h4>Email:</h4></label>
             <input class="text-box" type="email" name="email-input" v-model="email">
           </div>
           <div class="cred-wrapper">
-            <label for="password-input"><h4>Password</h4></label>
+            <label for="username-input"><h4>Create a Username:</h4></label>
+            <input class="text-box" type="text" name="username-input" v-model="name">
+          </div>
+          <div class="cred-wrapper">
+            <label for="password-input"><h4>Create a Password:</h4></label>
             <input class="text-box" type="password" name="password-input" v-model="password">
           </div>
+          <div class="cred-wrapper">
+            <label for="password-repeat-input"><h4>Retype Your Password:</h4></label>
+            <input class="text-box" type="password" name="password-repeat-input" v-model="password_confirmation">
+          </div>
+          
         </div>
-          <div @click="(login())" role="button" class="login-button"><p class="sign-up">Log In</p></div>
-          <div class="forgot-password-wrapper"><p>Forgot Your Password?</p></div>
+          <div @click="(registerUser())" role="button" class="register-button"><p class="sign-up">Register</p></div>
           <p class="error-message">{{ error }}</p>
       </div>
     </div>
@@ -23,60 +32,37 @@
 <script>
 import axios from 'axios';
 export default {
-  name: 'LoginView',
+  name: 'SignupView',
   emits: ['emitInfo'],
 
   data() {
     return {
       email: '',
+      name: '',
       password: '',
+      password_confirmation: '',
       userInfo: [],
       isUserFetched: false,
       error: ''
     }
   },
   methods: {
-    created() {
-
-    },
-    async login() {
-      let info = {email: this.email, password: this.password};
-       axios.post('https://api.gooeybonez.com/api/login', info, {
+    async registerUser() {
+      let info = {email: this.email, name: this.name, password: this.password, password_confirmation: this.password_confirmation};
+       axios.post('https://api.gooeybonez.com/api/register', info, {
         headers: {'content-type':'application/json'}
       })
-      .then(response => this.handleLoginResponse(response.data)).catch((error) => [this.error = 'Sorry, that Email or Password was incorrect', console.log(error)])
+      .then(response => this.handleRegisterResponse(response.data)).catch((error) => [this.error = 'Sorry, that Email or Password was incorrect', console.log(error)])
     },
-    async getUserConsoles(userId) {
-      let url = 'https://api.gooeybonez.com/api/consoles/' + userId
-       axios.get(url, {
-        headers: {'content-type':'application/json'}
-      })
-      .then(response => this.handleConsoleResponse(response.data)).catch((error) => console.log(error))
-    },
-    async getUserGames(userId) {
-      let url = 'https://api.gooeybonez.com/api/games/' + userId
-       axios.get(url, {
-        headers: {'content-type':'application/json'}
-      })
-      .then(response => this.handleGameResponse(response.data)).catch((error) => console.log(error))
-    },
-    
-    handleLoginResponse(res) {
+    handleRegisterResponse(res) {
       this.userInfo.push(res);
-      this.getUserConsoles(this.userInfo[0].user.id)
-    },
-    handleConsoleResponse(res) {
-      this.userInfo.push(res)
-      this.getUserGames(this.userInfo[0].user.id)
-    },
-    handleGameResponse(res) {
-      this.userInfo.push(res);
+      this.userInfo.push([])
+      this.userInfo.push([])
       this.isUserFetched = true;
       this.userInfo.push(this.isUserFetched)
       this.$emit('emitInfo', this.userInfo)
       this.$router.push('/manage')
-    },
-    
+    }
   }
 }
 </script>
@@ -87,19 +73,16 @@ export default {
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    height: 700px;
-    
 }
 .input-wrapper {
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: space-between;
+    justify-content: flex-start;
     background-color: black;
-    padding-left: 25px;
-    padding-right: 25px;
+    padding: 25px;
+    margin-top: 100px;
     border-radius: 5px;
-    height: 60%;
     width: 300px;
     border: 1px solid white;
     position: relative;
@@ -116,7 +99,7 @@ h4 {
   border-left: 4px solid white;
   margin-left: 5px;
   margin-top: 10px;
-  margin-bottom: 10px;
+  margin-bottom: 5px;
   padding-left: 5px;
   color: white;
 }
@@ -124,7 +107,7 @@ h4 {
   width: 200px;
   height: 20px;
 }
-.login-button {
+.register-button {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -135,11 +118,11 @@ h4 {
     border: 1px solid #b0b5bd;
     border-radius: 2px;
 }
-.login-button:hover {
+.register-button:hover {
     background-color: #640000;
     cursor: pointer;
 }
-.login-button p {
+.register-button p {
     margin: 0;
     text-align: center;
     color: white;

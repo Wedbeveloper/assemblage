@@ -1,7 +1,12 @@
 <template>
     <div class="list-member-wrapper">
         <img class="game-cover" :src="this.gameCover"/>
-        <p class="game-name">{{ gameName }}</p>
+        <div class="info-wrapper">
+
+            <p class="game-name">{{ gameName }}</p>
+            <p class="date"></p>
+        </div>
+        
         <div class="delete-button-wrapper">
             <i @click="deleteWithAlert(this.game)" class="fas fa-solid fa-trash-can"></i>
         </div>
@@ -11,16 +16,19 @@
 export default {
     name: 'GameMember',
     props: ['game'],
+    emits: ['delete-game'],
     data() {
         return {
+            gameId: this.game.id,
             gameName: this.game.name,
             gameCover: this.game['cover-art']
         }
     },
     methods: {
         deleteWithAlert(thisGame) {
-            alert("Are you sure you want to delete " + thisGame.name + "?")
-            console.log(thisGame.name)
+            if(confirm("Are you sure you want to delete " + thisGame.name + "?")){
+                this.$emit('delete-game',this.gameId)
+            }
         }
     }
 }
@@ -34,9 +42,11 @@ export default {
   margin: 7px;
   margin-bottom: 0;
   min-height: 75px;
+  max-height: 75px;
   border-radius: 3px;
   border: 1px solid white;
   cursor: pointer;
+  overflow: hidden;
   
 }
 .list-member-wrapper:hover {
@@ -49,17 +59,32 @@ export default {
   color: white;
 }
 .game-cover {
-    width: 20%;
+    height: 100%;
+}
+.info-wrapper {
+    flex: 3;
+    display: flex;
+    flex-direction: column;
 }
 .game-name {
-    flex: 3;
+    margin: 0;
+    padding: 0;
+    padding-left: 10px;
+    text-align: left;
+}
+.date {
+    margin: 0;
+    padding: 0;
+    padding-left: 10px;
+    text-align: left;
+
 }
 .delete-button-wrapper {
     flex: 1;
 }
 .fas {
     color: white;
-    font-size: 20px;
+    font-size: 18px;
 }
 .fas:hover {
     color: #640000;

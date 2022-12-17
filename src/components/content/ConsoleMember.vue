@@ -13,6 +13,7 @@
 export default {
     name: 'ConsoleMember',
     props: ['console'],
+    emits: ['get-selected-console','delete-console'],
     data() {
         return {
             consoleName: this.console.name,
@@ -42,6 +43,7 @@ export default {
   margin: 7px;
   margin-bottom: 0;
   min-height: 75px;
+  max-height: 75px;
   border-radius: 3px;
   border: 1px solid white;
   cursor: pointer;
@@ -53,14 +55,18 @@ export default {
 }
 .list-member-wrapper p {
   margin: 0;
-  font-size: 20px;
+  font-size: 18px;
   color: white;
 }
 .console-logo {
-    width:20%;
+    height: 100%;
 }
 .console-name {
     flex: 3;
+    margin: 0;
+    padding: 0;
+    padding-left: 10px;
+    text-align: left;
 }
 .delete-button-wrapper {
     flex: 1;

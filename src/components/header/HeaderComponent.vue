@@ -10,7 +10,7 @@
         </div>
         <div class="login-wrapper">
             <div v-if="this.isUserFetched === false" @click="$router.push('/login')" role="button" class="login-button"><p>Login</p></div>
-            <div v-if="this.isUserFetched === false" role="button" class="login-button"><p class="sign-up">Sign-up</p></div>
+            <div v-if="this.isUserFetched === false" @click="$router.push('/signup')" role="button" class="login-button"><p class="sign-up">Sign-up</p></div>
             <div v-else role="button" class="login-button" @click="logOut()"><p>Log Out</p></div>
         </div>
     </div>
@@ -23,6 +23,8 @@ import axios from 'axios';
 export default {
     name: 'HeaderComponent',
     props: ['isUserFetched', 'token'],
+    emits: ['logout'],
+    inheritAttrs: false,
     components: {
         NavBar
     },
@@ -33,7 +35,6 @@ export default {
     },
     methods: {
         logOut() {
-            console.log(this.token)
         let requestAuthHeader = {'content-type':'application/json',Authorization:'Bearer ' + this.token}
         axios.post('https://api.gooeybonez.com/api/logout', '',{headers: requestAuthHeader})
             .then(response => this.pushHome(response.data)).catch((error) => console.log(error))

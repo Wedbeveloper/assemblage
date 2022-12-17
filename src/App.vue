@@ -1,7 +1,7 @@
 <template>
   <HeaderComponent :token=this.userToken :isUserFetched=this.isUserFetched class="header" @logout="logOut" />
   <div class="content">
-    <router-view :user=this.userInfo :consoles=this.userConsoles :games=this.userGames :token=this.userToken @emitInfo="getUserInfo" :key="$route.fullPath"/>
+    <router-view :user=this.userInfo :consoles=this.userConsoles :games=this.userGames :token=this.userToken @emit-info="getUserInfo" :key="$route.fullPath"/>
   </div>
   <FooterComponent class="footer"/>
 </template>
@@ -13,6 +13,7 @@ import FooterComponent from './components/footer/FooterComponent.vue';
 
 export default {
   name: 'App',
+  inheritAttrs: false,
 
   components: {
     HeaderComponent,
@@ -60,6 +61,7 @@ export default {
   width: 100%;
   align-items: center;
   padding-bottom: 2.5em;
+  height: 100vh;
 }
 
 .footer {
