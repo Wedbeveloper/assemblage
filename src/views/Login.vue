@@ -3,8 +3,10 @@
       <div class="input-wrapper">
           <div class="greeting-wrapper">
             <h3>Log in to Manage Your Collection</h3>
+            <hr>
           </div>
-          <div class="email-password-container"><div class="cred-wrapper">
+          <div class="email-password-container">
+            <div class="cred-wrapper">
             <label for="email-input"><h4>Email:</h4></label>
             <input class="text-box" type="email" name="email-input" v-model="email">
           </div>
@@ -82,47 +84,62 @@ export default {
 </script>
 
 <style scoped>
+* {
+  box-sizing: border-box;
+}
 .form-wrapper {
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    height: 700px;
+    height: 100%;
+  width: 100%;
     
+}
+.greeting-wrapper {
+  width: 100%;
 }
 .input-wrapper {
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: space-between;
-    background-color: black;
-    padding-left: 25px;
-    padding-right: 25px;
+    padding-left: 10px;
+    padding-right: 10px;
     border-radius: 5px;
-    height: 60%;
-    width: 300px;
     border: 1px solid white;
-    position: relative;
+    width: 100%;
+    background-color: #171923;
+    max-width: 300px;
 }
 .cred-wrapper{
   display: flex;
   flex-direction: column;
   margin-bottom: 20px;
+  width: 100%;
   
+}
+.email-password-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding-left: 20px;
+  padding-right: 20px;
+  width: 100%;
 }
 h4 {
   margin: 2px;
   text-align: left;
   border-left: 4px solid white;
-  margin-left: 5px;
+  margin-bottom: 5px;
   margin-top: 10px;
-  margin-bottom: 10px;
   padding-left: 5px;
   color: white;
 }
 .text-box {
-  width: 200px;
-  height: 20px;
+  height: 30px;
+  width: 100%;
 }
 .login-button {
     display: flex;
@@ -151,5 +168,9 @@ h3 {
   color: red;
   position: absolute;
   bottom: 130px;
+}
+hr {
+  border: 1px solid #b0b5bd
+
 }
 </style>

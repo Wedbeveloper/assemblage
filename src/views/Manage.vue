@@ -1,6 +1,6 @@
 <template>
   <!--<div>Hello {{ user.name }}</div>-->
-  <div class="component-wrapper">
+  
   <div class="column-wrapper">
     <div class="column1">
       <div class="input-wrapper">
@@ -46,7 +46,7 @@
       </div>
     </div>
   </div>
-</div>
+
 </template>
 
 <script>
@@ -161,7 +161,7 @@ export default {
       this.getConsoleLogo(this.addedConsole.platform_logo)
     },
     getConsoleLogo(logoID) {
-      let request = "'fields url; where id = " + logoID + ";'"
+      let request = "'fields image_id; where id = " + logoID + ";'"
       let requestAuthHeader = {['Client-ID']: this.idgbClientId, Authorization:'Bearer zan1k18v95233iy51sq6c15dlk8a53'}
       axios.post('http://localhost:8080/https://api.igdb.com/v4/platform_logos', request , {
         headers: requestAuthHeader
@@ -171,7 +171,7 @@ export default {
     
     //Get Console Logo Then Push Console To My API
     async setPlatformLogoAndAdd(res) {
-      this.addedConsole.logo = res[0].url;
+      this.addedConsole.logo = "//images.igdb.com/igdb/image/upload/t_cover_small/" + res[0].image_id + ".png";
       let consoleToSend = {
         'belongs-to-user': this.user.id,
         name: this.addedConsole.name,
@@ -270,6 +270,7 @@ export default {
 <style scoped>
 * {
     box-sizing: border-box;
+    
 }
 h4 {
   margin: 2px;
@@ -281,13 +282,19 @@ h4 {
   padding-left: 5px;
   color: white;
 }
-.component-wrapper {
-  width: 90%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  background-color: #0a0b0f;
-  height: 100%;
+
+div::-webkit-scrollbar {
+  width: 8px;
+}
+div::-webkit-scrollbar-track {
+  box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+  border-radius: 10px;
+  background-color: #0f1016;
+}
+ 
+div::-webkit-scrollbar-thumb {
+  background-color: #464b53;
+  border-radius: 10px;
 }
 .column-wrapper {
   display: flex;
@@ -320,7 +327,6 @@ h4 {
   border-radius: 3px;
 }
 .input-wrapper {
-  border: 1px solid black;
   background-color: #171923;
   border-bottom: 1px solid #b0b5bd;
   padding-bottom: 5px;
@@ -357,6 +363,7 @@ h4 {
   top: 27px;
   left: 0;
   border-radius: 3px;
+  z-index: 3;
 }
 .search-list-game-container {
   position: absolute;
@@ -419,4 +426,5 @@ h4 {
     overflow-y: auto;
     height: 0px;
 }
+
 </style>

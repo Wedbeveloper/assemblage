@@ -1,7 +1,9 @@
 <template>
   <HeaderComponent :token=this.userToken :isUserFetched=this.isUserFetched class="header" @logout="logOut" />
   <div class="content">
+    <div class="component-wrapper">
     <router-view :user=this.userInfo :consoles=this.userConsoles :games=this.userGames :token=this.userToken @emit-info="getUserInfo" :key="$route.fullPath"/>
+  </div>
   </div>
   <FooterComponent class="footer"/>
 </template>
@@ -55,13 +57,22 @@ export default {
   color: #2c3e50;
   margin: 0;
 }
+.component-wrapper {
+  width: 90%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: #0a0b0f;
+  height: 100%;
+}
 .content {
   display: flex;
   flex-direction: column;
   width: 100%;
   align-items: center;
   padding-bottom: 2.5em;
-  height: 100vh;
+  height: 100%;
+  min-height: fit-content;
 }
 
 .footer {

@@ -1,10 +1,14 @@
 <template>
     <div class="list-member-wrapper">
-        <img class="game-cover" :src="this.gameCover"/>
+        <div class="game-cover-wrapper">
+
+            <img class="game-cover" :src="this.gameCover"/>
+        </div>
+        
         <div class="info-wrapper">
 
             <p class="game-name">{{ gameName }}</p>
-            <p class="date"></p>
+            <p class="date-added">Date Added:</p>
         </div>
         
         <div class="delete-button-wrapper">
@@ -34,6 +38,9 @@ export default {
 }
 </script>
 <style scoped>
+* {
+    box-sizing: border-box;
+}
 .list-member-wrapper {
   display: flex;
   align-items: center;
@@ -47,44 +54,63 @@ export default {
   border: 1px solid white;
   cursor: pointer;
   overflow: hidden;
+  position: relative;
   
 }
+
 .list-member-wrapper:hover {
     scale: 1.02;
-    z-index: 3;
 }
-.list-member-wrapper p {
-  margin: 0;
-  font-size: 20px;
-  color: white;
-}
+
 .game-cover {
+    height:100%;
+}
+.game-cover-wrapper {
+    display: flex;
     height: 100%;
+    width: fit-content;
 }
 .info-wrapper {
     flex: 3;
     display: flex;
+    height: 100%;
+    padding-top: 5px;
+    padding-bottom: 5px;
     flex-direction: column;
+    justify-content: space-between;
 }
 .game-name {
     margin: 0;
     padding: 0;
-    padding-left: 10px;
+    padding-left: 5px;
     text-align: left;
+    width: 100%;
+    font-size: 17px;
+    color: white;
+    border-bottom: .01px solid #9e9e9e;
 }
-.date {
+.date-added {
     margin: 0;
     padding: 0;
-    padding-left: 10px;
     text-align: left;
+    padding-left: 5px;
+    font-size: 13px;
+    color: #797979;
 
 }
 .delete-button-wrapper {
-    flex: 1;
+    position: absolute;
+    width: fit-content;
+    padding-right: 10px;
+    display: flex;
+    padding-bottom: 5px;
+    align-items: flex-end;
+    right: 0;
+    bottom: 2px;
 }
 .fas {
     color: white;
-    font-size: 18px;
+    font-size: 20px;
 }
 .fas:hover {
     color: #640000;

@@ -14,7 +14,7 @@
             <div v-else role="button" class="login-button" @click="logOut()"><p>Log Out</p></div>
         </div>
     </div>
-    <NavBar/>
+    <NavBar :isUserFetched="isUserFetched"/>
 </template>
 <script>
 

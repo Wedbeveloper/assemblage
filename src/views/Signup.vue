@@ -2,7 +2,8 @@
     <div class="form-wrapper">
       <div class="input-wrapper">
           <div class="greeting-wrapper">
-            <h3>Signup to Get Organized!</h3>
+            <h3>Sign-Up to Get Organized!</h3>
+            <hr>
           </div>
           <div class="email-password-container">
           <div class="cred-wrapper">
@@ -68,51 +69,69 @@ export default {
 </script>
 
 <style scoped>
+* {
+  box-sizing: border-box;
+}
 .form-wrapper {
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
+    height: 100%;
+    width: 100%;
+}
+.greeting-wrapper {
+  width: 100%;
 }
 .input-wrapper {
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: flex-start;
-    background-color: black;
-    padding: 25px;
-    margin-top: 100px;
+    justify-content: space-between;
+    background-color: #171923;
+    padding-left: 10px;
+    padding-right: 10px;
     border-radius: 5px;
-    width: 300px;
+    width: 100%;
     border: 1px solid white;
     position: relative;
+    max-width: 300px;
 }
 .cred-wrapper{
   display: flex;
   flex-direction: column;
   margin-bottom: 20px;
+  width: 100%;
   
+}
+.email-password-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding-left: 20px;
+  padding-right: 20px;
+  width: 100%;
 }
 h4 {
   margin: 2px;
   text-align: left;
   border-left: 4px solid white;
-  margin-left: 5px;
-  margin-top: 10px;
   margin-bottom: 5px;
+  margin-top: 10px;
   padding-left: 5px;
   color: white;
 }
 .text-box {
-  width: 200px;
-  height: 20px;
+  width: 100%;
+  height: 30px;
 }
 .register-button {
     display: flex;
     justify-content: center;
     align-items: center;
     background-color: #0a0b0f;
-    margin: 5px;
+    margin-bottom: 16px;
     height: 35px;
     min-width: 90px;
     border: 1px solid #b0b5bd;
@@ -134,5 +153,9 @@ h3 {
   color: red;
   position: absolute;
   bottom: 130px;
+}
+hr {
+  border: 1px solid #b0b5bd
+
 }
 </style>
