@@ -33,7 +33,7 @@ export default {
   methods: {
     async submit() {
       let info = {email: this.email};
-       axios.post('http://localhost:8080/https://api.gooeybonez.com/api/forgot-password', info, {
+       axios.post('https://api.gooeybonez.com/api/forgot-password', info, {
         headers: {'content-type':'application/json'}
       })
       .then(response => this.handleResetResponse(response.data)).catch((error) => [this.response = error])

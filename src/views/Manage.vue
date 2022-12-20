@@ -94,7 +94,7 @@ export default {
     //Text Input Console Search Handler
     searchForConsole(consoleInput) {
       let requestAuthHeader = {['Client-ID']: this.idgbClientId, Authorization:'Bearer zan1k18v95233iy51sq6c15dlk8a53'}
-      axios.post('http://localhost:8080/https://api.igdb.com/v4/platforms', 'search "' + consoleInput + '"; fields name;', {
+      axios.post('https://enigmatic-taiga-74276.herokuapp.com/https://api.igdb.com/v4/platforms', 'search "' + consoleInput + '"; fields name;', {
         headers: requestAuthHeader
       })
       .then(response => this.handleIdgbConsoleReturn(response.data)).catch((error) => console.log(error))
@@ -111,7 +111,7 @@ export default {
     //Text Input Game Search Handler
     searchForGame(gameInput) {
       let requestAuthHeader = {['Client-ID']: this.idgbClientId, Authorization:'Bearer zan1k18v95233iy51sq6c15dlk8a53'}
-      axios.post('http://localhost:8080/https://api.igdb.com/v4/games', 'search "' + gameInput + '"; fields name, cover;', {
+      axios.post('https://enigmatic-taiga-74276.herokuapp.com/https://api.igdb.com/v4/games', 'search "' + gameInput + '"; fields name, cover;', {
         headers: requestAuthHeader
       })
       .then(response => this.handleIdgbGameReturn(response.data)).catch((error) => console.log(error))
@@ -150,7 +150,7 @@ export default {
     //Console Add Button Handler
     setCurrentConsoleThenAdd(consoleName){
       let requestAuthHeader = {['Client-ID']: this.idgbClientId, Authorization:'Bearer zan1k18v95233iy51sq6c15dlk8a53'}
-      axios.post('http://localhost:8080/https://api.igdb.com/v4/platforms', 'search "' + consoleName + '"; fields name, platform_logo, slug;', {
+      axios.post('https://enigmatic-taiga-74276.herokuapp.com/https://api.igdb.com/v4/platforms', 'search "' + consoleName + '"; fields name, platform_logo, slug;', {
         headers: requestAuthHeader
       })
       .then(response => this.handleAddedConsoleReturn(response.data)).catch((error) => console.log(error))
@@ -163,7 +163,7 @@ export default {
     getConsoleLogo(logoID) {
       let request = "'fields image_id; where id = " + logoID + ";'"
       let requestAuthHeader = {['Client-ID']: this.idgbClientId, Authorization:'Bearer zan1k18v95233iy51sq6c15dlk8a53'}
-      axios.post('http://localhost:8080/https://api.igdb.com/v4/platform_logos', request , {
+      axios.post('https://enigmatic-taiga-74276.herokuapp.com/https://api.igdb.com/v4/platform_logos', request , {
         headers: requestAuthHeader
       })
       .then(response => this.setPlatformLogoAndAdd(response.data)).catch((error) => console.log(error))
@@ -180,7 +180,7 @@ export default {
 
       }
       let requestAuthHeader = {'content-type':'application/json',Authorization:'Bearer ' + this.token}
-      axios.post('http://localhost:8080/https://api.gooeybonez.com/api/consoles', JSON.stringify(consoleToSend), {
+      axios.post('https://api.gooeybonez.com/api/consoles', JSON.stringify(consoleToSend), {
         headers: requestAuthHeader
       })
       .then(response => this.consolesInList.push(response.data)).catch((error) => console.log(error));
@@ -211,7 +211,7 @@ export default {
       let request = "'fields name, cover, slug, first_release_date; where name = " + gameName + ";'"
       console.log(request)
       let requestAuthHeader = {['Client-ID']: this.idgbClientId, Authorization:'Bearer zan1k18v95233iy51sq6c15dlk8a53'}
-      axios.post('http://localhost:8080/https://api.igdb.com/v4/games', request, {
+      axios.post('https://enigmatic-taiga-74276.herokuapp.com/https://api.igdb.com/v4/games', request, {
         headers: requestAuthHeader
       })
       .then(response => this.handleAddedGameReturn(response.data)).catch((error) => console.log(error))
@@ -224,7 +224,7 @@ export default {
     getGameCover(coverID) {
       let request = "'fields url; where id = " + coverID + ";'"
       let requestAuthHeader = {['Client-ID']: this.idgbClientId, Authorization:'Bearer zan1k18v95233iy51sq6c15dlk8a53'}
-      axios.post('http://localhost:8080/https://api.igdb.com/v4/covers', request , {
+      axios.post('https://enigmatic-taiga-74276.herokuapp.com/https://api.igdb.com/v4/covers', request , {
         headers: requestAuthHeader
       })
       .then(response => this.setGameCoverAndAdd(response.data)).catch((error) => console.log(error))
@@ -241,7 +241,7 @@ export default {
       }
       console.log('Game to Send: ' + JSON.stringify(gameToSend))
       let requestAuthHeader = {'content-type':'application/json',Authorization:'Bearer ' + this.token}
-      axios.post('http://localhost:8080/https://api.gooeybonez.com/api/games', JSON.stringify(gameToSend), {
+      axios.post('https://api.gooeybonez.com/api/games', JSON.stringify(gameToSend), {
         headers: requestAuthHeader
       })
       .then(response => this.gamesInList.push(response.data)).catch((error) => console.log(error));
@@ -249,7 +249,7 @@ export default {
     // Game Delete Emit Handler
     deleteGame(gameId){
       let requestAuthHeader = {'content-type':'application/json',Authorization:'Bearer ' + this.token}
-      axios.delete('http://localhost:8080/https://api.gooeybonez.com/api/games/' + gameId, {
+      axios.delete('https://api.gooeybonez.com/api/games/' + gameId, {
         headers: requestAuthHeader
       })
       .then(response => this.updateGameList(response.data, gameId)).catch((error) => console.log(error));

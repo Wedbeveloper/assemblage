@@ -47,7 +47,7 @@ export default {
     },
     async submit() {
       let info = {email: this.email, password: this.password, 'password_confirmation':this.retypedPassword, token: this.token};
-       axios.post('http://localhost:8080/https://api.gooeybonez.com/api/reset-password', info, {
+       axios.post('https://api.gooeybonez.com/api/reset-password', info, {
         headers: {'content-type':'application/json'}
       })
       .then(response => this.handleResetResponse(response.data)).catch((error) => [this.response = error])
