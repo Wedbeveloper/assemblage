@@ -2,7 +2,7 @@
   <HeaderComponent :token=this.userToken :isUserFetched=this.isUserFetched class="header" @logout="logOut" />
   <div class="content">
     <div class="component-wrapper">
-    <router-view :user=this.userInfo :consoles=this.userConsoles :games=this.userGames :token=this.userToken @emit-info="getUserInfo" :key="$route.fullPath"/>
+    <router-view :email=this.resetEmail :user=this.userInfo :consoles=this.userConsoles :games=this.userGames :token=this.userToken @emit-info="getUserInfo" @emit-email="passResetEmail" :key="$route.fullPath"/>
   </div>
   </div>
   <FooterComponent class="footer"/>
@@ -27,7 +27,8 @@ export default {
       userToken: '',
       userConsoles: [],
       userGames: [],
-      isUserFetched: false
+      isUserFetched: false,
+      resetEmail: ''
     }
   },
   methods: {
@@ -42,6 +43,9 @@ export default {
     },
     logOut(loggedOut) {
       this.isUserFetched = loggedOut;
+    },
+    passResetEmail(resetEmail) {
+      this.resetEmail = resetEmail;
     }
   }
 

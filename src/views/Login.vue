@@ -16,7 +16,7 @@
           </div>
         </div>
           <div @click="(login())" role="button" class="login-button"><p class="sign-up">Log In</p></div>
-          <div class="forgot-password-wrapper"><p>Forgot Your Password?</p></div>
+          <div @click="$router.push('/forgot-password')" class="forgot-password-wrapper"><p>Forgot Your Password?</p></div>
           <p class="error-message">{{ error }}</p>
       </div>
     </div>
@@ -160,6 +160,13 @@ h4 {
     margin: 0;
     text-align: center;
     color: white;
+}
+.forgot-password-wrapper {
+    color: #b0b5bd;
+}
+.forgot-password-wrapper p:hover {
+  color: #640000;
+    cursor: pointer;
 }
 h3 {
   color: #c3c3c3;

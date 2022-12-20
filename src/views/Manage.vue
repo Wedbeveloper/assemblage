@@ -374,6 +374,7 @@ div::-webkit-scrollbar-thumb {
   top: 27px;
   left: 0;
   border-radius: 3px;
+  z-index: 3;
 }
 .search-list-member {
   color: white;
