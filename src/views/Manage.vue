@@ -2,7 +2,7 @@
   <!--<div>Hello {{ user.name }}</div>-->
   
   <div class="column-wrapper">
-    <div class="column1">
+    <div id="column1" class="column1">
       <div class="input-wrapper">
         <h4>Add Console</h4>
         <div class="interactables">
@@ -17,14 +17,14 @@
         <div class="list-container">
           <h4>Consoles</h4>
           <div class="list-box">
-            <ConsoleMember v-for="value in consolesInList" :key="value.id" :console="value" @get-selected-console="setCurrentConsoleGames" @delete-console="deleteConsoleAndGames"/>
+            <ConsoleMember v-for="value in consolesInList" :key="value.id" :console="value" @get-selected-console="setCurrentConsoleGames" @delete-console="deleteConsoleAndGames" @click="showGames"/>
           </div>
         </div>
       </div>
     </div>
-    <div class="column2">
+    <div id="column2" class="column2">
       <div class="input-wrapper">
-        <h4>Add Game</h4>
+        <div class="add-game-text-wrapper"><h4>Add Game</h4><div @click="showConsoles" v-bind:class="isHidden && 'visible'" >Back to Consoles</div></div>
           <div class="interactables">
             <input v-if="consoleSelected" v-model="this.gameInput" @keyup="this.searchForGame(this.gameInput)" class="text-box" type="text"/>
             <div id="search-list-game-container" class="search-list-game-container">
@@ -46,7 +46,6 @@
       </div>
     </div>
   </div>
-
 </template>
 
 <script>
@@ -57,7 +56,16 @@ export default {
   name: 'ManageView',
   props: ['user', 'consoles', 'games', 'token'],
   inheritAttrs: false,
-  created () {
+  mounted() {
+    if (window.innerWidth > 600) {
+      this.isHidden = true;
+    }
+    else {
+      this.isHidden = false;
+    }
+  },
+  unmounted() {
+    window.removeEventListener("resize", this.handleSizeDependantElements)
   },
   components: {
     ConsoleMember,
@@ -78,10 +86,32 @@ export default {
       idgbConsoleResponse: {},
       addedGame: {},
       addedConsole: {},
-      eatResponse: ''
+      eatResponse: '',
+      isHidden: true,
+      previousWidth: ''
     }
   },
   methods: {
+    //Handle Hiding Elements at Smaller Screen Size
+    handleSizeDependantElements() {
+      if (window.innerWidth > 600 ) {
+        this.isHidden = true;
+      } 
+    },
+    showGames() {
+      if (window.innerWidth <= 600) {
+        document.getElementById("column1").style.display = "none";
+        document.getElementById("column2").style.display = "flex";
+
+        if (this.isHidden == true){
+          this.isHidden = false;
+        }
+      }
+    },
+    showConsoles() {
+        document.getElementById("column1").style.display = "flex";
+        document.getElementById("column2").style.display = "none";
+    },
     //Console Component Click Emit Handler
     setCurrentConsoleGames(passedConsole) {
       this.currentConsoleName = passedConsole.name;
@@ -304,7 +334,13 @@ div::-webkit-scrollbar-thumb {
   padding: 0;
   overflow-x: hidden;
   height: 100%;
-  max-height: 800px;
+  min-height: 800px;
+}
+@media screen and (max-width: 600px) {
+  .column-wrapper{
+    flex: 1;
+    min-height: 0;
+  }
 }
 .column1 {
   display: flex;
@@ -316,6 +352,14 @@ div::-webkit-scrollbar-thumb {
   border-right: 1px dashed #535d6e;
   border-radius: 3px;
 }
+@media screen and (max-width: 600px) {
+  .column1{
+    flex: 1;
+    margin-right: 10px;
+    border-right: 1px solid #535d6e;
+  }
+}
+
 .column2 {
   display: flex;
   flex-direction: column;
@@ -326,6 +370,16 @@ div::-webkit-scrollbar-thumb {
   border-left: 1px dashed #535d6e;
   border-radius: 3px;
 }
+@media screen and (max-width: 600px) {
+  .column2{
+    display: none;
+    margin-left: 10px;
+    border-left: 1px solid #535d6e;
+  }
+}
+
+
+
 .input-wrapper {
   background-color: #171923;
   border-bottom: 1px solid #b0b5bd;
@@ -340,7 +394,6 @@ div::-webkit-scrollbar-thumb {
   position: relative;
   align-content: center;
   justify-content: center;
-  margin-top: 2.5px;
   padding-bottom: 5px;
   padding-right: 5px;
   
@@ -426,6 +479,36 @@ div::-webkit-scrollbar-thumb {
   flex: 1 1 auto;
     overflow-y: auto;
     height: 0px;
+}
+.add-game-text-wrapper {
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+  align-items: center;
+  height: fit-content;
+  flex-direction: row;
+  margin: 0;
+  padding: 0;
+}
+.add-game-text-wrapper div {
+  
+  align-items: center;
+  justify-content: center;
+  background-color: #0a0b0f;
+  border: 1px solid #b0b5bd;
+  color: white;
+  border-radius: 2px;
+  padding: 3px;
+  margin: 0;
+  margin-right: 5px;
+  padding: 2px;
+}
+.add-game-text-wrapper div:hover {
+    background-color: #640000;
+    cursor: pointer;
+}
+.visible {
+  display: none;
 }
 
 </style>

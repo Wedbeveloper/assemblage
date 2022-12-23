@@ -93,24 +93,23 @@ export default {
     align-items: center;
     justify-content: center;
     height: 100%;
-  width: 100%;
-    
+    width: 100%;  
 }
 .greeting-wrapper {
   width: 100%;
 }
 .input-wrapper {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: space-between;
-    padding-left: 10px;
-    padding-right: 10px;
-    border-radius: 5px;
-    border: 1px solid white;
-    width: 100%;
-    background-color: #171923;
-    max-width: 300px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  padding-left: 10px;
+  padding-right: 10px;
+  border-radius: 5px;
+  border: 1px solid white;
+  width: 100%;
+  background-color: #171923;
+  max-width: 300px;
 }
 .cred-wrapper{
   display: flex;
@@ -166,10 +165,11 @@ h4 {
 }
 .forgot-password-wrapper p:hover {
   color: #640000;
-    cursor: pointer;
+  cursor: pointer;
 }
 h3 {
   color: #c3c3c3;
+  text-align: center;
 }
 .error-message {
   color: red;

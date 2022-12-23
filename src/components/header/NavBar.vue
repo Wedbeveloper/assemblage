@@ -54,6 +54,11 @@ nav {
     -moz-box-shadow: 0px 2px 32px -2px rgba(0,0,0,1);
     z-index: 2;
 }
+@media screen and (max-width: 600px) {
+    .navbar-wrapper {
+        display: none;
+    }
+}
 .site-links-wrapper {
     margin-right: auto;
 }

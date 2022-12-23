@@ -1,7 +1,6 @@
 <template>
     <div class="list-member-wrapper">
         <div class="game-cover-wrapper">
-
             <img class="game-cover" :src="this.gameCover"/>
         </div>
         

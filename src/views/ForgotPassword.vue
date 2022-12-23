@@ -131,6 +131,7 @@ h4 {
 }
 h3 {
   color: #c3c3c3;
+  text-align: center;
 }
 .error-message {
   color: red;

@@ -1,7 +1,7 @@
 <template>
     <div class="header-wrapper">
         <div class="header-logo-wrapper">
-            <img src="../../assets/logo.png" />
+            <img src="../../assets/blank-dvd-case-and-disc-png.png" />
         </div>
         
         <div class="header-title-wrapper">
@@ -12,6 +12,16 @@
             <div v-if="this.isUserFetched === false" @click="$router.push('/login')" role="button" class="login-button"><p>Login</p></div>
             <div v-if="this.isUserFetched === false" @click="$router.push('/signup')" role="button" class="login-button"><p class="sign-up">Sign-up</p></div>
             <div v-else role="button" class="login-button" @click="logOut()"><p>Log Out</p></div>
+            <div class="burgerNavButton" @click="showBurgerNav" role="button" >
+                <i class="fa-solid fa-bars"></i>
+                <div class="burger-nav-wrapper" :class="burgerNavHidden && 'visible'">
+                    <div class="burger-nav-member"><p>Home</p></div>
+                    <div v-if="this.isUserFetched === false" @click="$router.push('/login')" class="burger-nav-member"><p>Login</p></div>
+                    <div v-if="this.isUserFetched === false" @click="$router.push('/signup')" class="burger-nav-member"><p>Sign-up</p></div>
+                    <div v-else role="button" @click="logOut()" class="burger-nav-member"><p>Log Out</p></div>
+                </div>
+            </div>
+            
         </div>
     </div>
     <NavBar :isUserFetched="isUserFetched"/>
@@ -30,7 +40,8 @@ export default {
     },
     data() {
         return {
-            userSignedIn: this.isUserFetched
+            userSignedIn: this.isUserFetched,
+            burgerNavHidden: true
         }
     },
     methods: {
@@ -43,6 +54,9 @@ export default {
             console.log(res);
             this.$router.push('/home')
             this.$emit('logout', false)
+        },
+        showBurgerNav() {
+            this.burgerNavHidden = !this.burgerNavHidden
         }
     }
 }
@@ -77,6 +91,12 @@ img {
     border-bottom: 2px solid #640000;
     z-index: 3;
 }
+@media screen and (max-width: 600px) {
+    .header-wrapper {
+        background: none;
+        background-color: #640000;
+    }
+}
 .header-logo-wrapper {
     display: flex;
     align-items: center;
@@ -96,6 +116,7 @@ img {
     justify-content: center;
     align-items: center;
 }
+
 .login-button {
     display: flex;
     justify-content: center;
@@ -106,6 +127,24 @@ img {
     min-width: 90px;
     border: 1px solid #b0b5bd;
     border-radius: 2px;
+}
+.fa-bars {
+    display: none;
+    font-size: 30px;
+    margin: 5px;
+    color: #b0b5bd;
+    background-color: #171923;
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid #b0b5bd;
+}
+@media screen and (max-width: 600px) {
+  .login-button{
+    display: none;
+  }
+  .fa-bars {
+    display: block;
+}
 }
 .login-button:hover {
     background-color: #640000;
@@ -119,4 +158,44 @@ img {
 .login-button .sign-up {
     color: #c3c3c3;
 }
+.burger-nav-button {
+    position: relative;
+}
+.burger-nav-wrapper {
+    display: flex;
+    flex-direction: column;
+    width: 200px;
+    padding: 10px;
+    position: absolute;
+    background-color: black;
+    right: 5px;
+    border-radius: 3px;
+  z-index: 3;
+  border: 1px solid #b0b5bd;
+    
+}
+.burger-nav-member {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+  text-align: left;
+  margin: 5px;
+  padding: 10px;
+  background: #171923;
+  border-radius: 3px;
+  cursor: pointer;
+}
+.burger-nav-member p {
+    margin: 0;
+}
+@media screen and (min-width: 601px) {
+    .burger-nav-wrapper {
+        display: none;
+    }
+}
+.visible {
+    display: none;
+}
+
 </style>

@@ -4,8 +4,9 @@
     <div class="component-wrapper">
     <router-view :email=this.resetEmail :user=this.userInfo :consoles=this.userConsoles :games=this.userGames :token=this.userToken @emit-info="getUserInfo" @emit-email="passResetEmail" :key="$route.fullPath"/>
   </div>
-  </div>
   <FooterComponent class="footer"/>
+  </div>
+  
 </template>
 
 <script>
@@ -20,7 +21,7 @@ export default {
   components: {
     HeaderComponent,
     FooterComponent
-  },
+},
   data() {
     return {
       userInfo: {},
@@ -53,14 +54,6 @@ export default {
 </script>
 
 <style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin: 0;
-}
 .component-wrapper {
   width: 90%;
   display: flex;
@@ -68,6 +61,13 @@ export default {
   align-items: center;
   background-color: #0a0b0f;
   height: 100%;
+  justify-content: flex-start;
+  flex:1;
+}
+@media screen and (max-width: 600px) {
+  .component-wrapper {
+    width: 100%;
+  }
 }
 .content {
   display: flex;
@@ -75,8 +75,9 @@ export default {
   width: 100%;
   align-items: center;
   padding-bottom: 2.5em;
-  height: 100%;
+  flex: 1;
   min-height: fit-content;
+  position: relative;
 }
 
 .footer {
