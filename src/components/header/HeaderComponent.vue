@@ -15,7 +15,8 @@
             <div class="burgerNavButton" @click="showBurgerNav" role="button" >
                 <i class="fa-solid fa-bars"></i>
                 <div class="burger-nav-wrapper" :class="burgerNavHidden && 'visible'">
-                    <div class="burger-nav-member"><p>Home</p></div>
+                    <div class="burger-nav-member" @click="$router.push('/')"><p>Home</p></div>
+                    <div v-if="this.isUserFetched === true" class="burger-nav-member" @click="$router.push('/manage')"><p>Manage</p></div>
                     <div v-if="this.isUserFetched === false" @click="$router.push('/login')" class="burger-nav-member"><p>Login</p></div>
                     <div v-if="this.isUserFetched === false" @click="$router.push('/signup')" class="burger-nav-member"><p>Sign-up</p></div>
                     <div v-else role="button" @click="logOut()" class="burger-nav-member"><p>Log Out</p></div>

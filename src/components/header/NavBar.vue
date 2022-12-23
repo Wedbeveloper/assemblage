@@ -3,21 +3,21 @@
         <div class="site-links-wrapper"><nav>
             <ul class="site-links">
                 <li>
-                    <div class="image-wrapper"><img src="../../assets/reddot.png"/></div><p  @click="$router.push('/')">Home</p>
+                    <p  @click="$router.push('/')">Home</p>
                     
                 </li>
                 <li v-if="isUserFetched">
-                    <div  class="image-wrapper"><img src="../../assets/reddot.png"/></div><p  @click="$router.push('/manage')">Manage</p>
+                    <p  @click="$router.push('/manage')">Manage</p>
                 </li>
                 <li v-if="isUserFetched">
-                    <div  class="image-wrapper"><img src="../../assets/reddot.png"/></div><p>View</p>
+                    <p>View</p>
                 </li>
             </ul>
             
         </nav></div>
         <div class="profile-link-wrapper">
             <ul  class="profile-link">
-                <li v-if="isUserFetched"><div  class="image-wrapper"><img src="../../assets/reddot.png"/></div><p>My Profile</p></li>
+                <li v-if="isUserFetched"><p>My Profile</p></li>
             </ul>
         </div>
         
@@ -44,6 +44,7 @@ nav {
 }
 .navbar-wrapper {
     display: flex;
+    justify-content: center;
     width: 100%;
     height: 30px;
     background-color: #0a0b0f ;
@@ -60,13 +61,13 @@ nav {
     }
 }
 .site-links-wrapper {
+    display: flex;  
+    justify-content: center;
     margin-right: auto;
 }
 .site-links {
     margin: 0;
     padding: 0;
-    padding-top: 7px;
-    padding-bottom: 7px;
     height: 100%;
 }
 .site-links li {
@@ -106,10 +107,7 @@ li:hover {
     cursor: pointer;
     color: grey;
 }
-li img {
-    margin-right: 4px;
-    height: 60%;
-}
+
 p {
     margin: 0;
 }

@@ -378,15 +378,13 @@ div::-webkit-scrollbar-thumb {
   }
 }
 
-
-
 .input-wrapper {
   background-color: #171923;
   border-bottom: 1px solid #b0b5bd;
   padding-bottom: 5px;
   padding-left: 5px;
-  min-height: 76px;
-  max-height: 76px;
+  min-height: 84px;
+  max-height: 84px;
   
 }
 .interactables {

@@ -87,6 +87,8 @@ export default {
     font-size: 17px;
     color: white;
     border-bottom: .01px solid #9e9e9e;
+    overflow: hidden;
+    max-height: 27px;
 }
 .date-added {
     margin: 0;
