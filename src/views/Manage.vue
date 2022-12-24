@@ -501,6 +501,14 @@ div::-webkit-scrollbar-thumb {
   margin-right: 5px;
   padding: 2px;
 }
+.no-console-selected-text {
+  color: white;
+  text-align: center;
+  font-size: 20px;
+  background-color: #535d6e;
+  margin: 10px;
+  border-radius: 3px;
+}
 .add-game-text-wrapper div:hover {
     background-color: #640000;
     cursor: pointer;

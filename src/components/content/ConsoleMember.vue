@@ -2,7 +2,6 @@
     <div @click="$emit('get-selected-console', this.emittedAttributes)" class="list-member-wrapper">
         <div class="logo-wrapper">
             <img class="console-logo" :src="this.consoleLogo"/>
-            
         </div>
         <div class="info-wrapper">
             <p class="console-name">{{ consoleName }}</p>
@@ -70,6 +69,7 @@ export default {
     max-width: 100%;
     max-height: 100%;
     filter: drop-shadow(0px 0px .5px #FFFFFF);
+    overflow: hidden;
 }
 .console-name {
     margin: 0;
@@ -99,6 +99,7 @@ export default {
     border-top-right-radius: 50%;
     border-bottom-right-radius: 50%;
     height: 100%;
+    overflow: hidden;
 }
 .info-wrapper {
     display: flex;
