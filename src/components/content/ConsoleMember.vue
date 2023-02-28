@@ -1,45 +1,45 @@
 <template>
     <div @click="$emit('get-selected-console', this.emittedAttributes)" class="list-member-wrapper">
         <div class="logo-wrapper">
-            <img class="console-logo" :src="this.consoleLogo"/>
+            <img class="console-logo" :src="console.logo"/>
         </div>
         <div class="info-wrapper">
-            <p class="console-name">{{ consoleName }}</p>
-            <p class="game-count">Total Games:</p>
+            <p class="console-name">{{ console.name }}</p>
+            <p class="meta-data">Date Added: {{ console['created_at'].slice(0, 10) }}</p>
+            <p class="meta-data">Total Games: {{ console['num-games'] }}</p>
+
         </div>
         <div class="delete-button-wrapper">
-            <i @click="deleteWithAlert(this.console)"  class="fas fa-solid fa-trash-can"></i>
+            <i @click="deleteWithAlert(console)"  class="fas fa-solid fa-trash-can"></i>
         </div>
     </div>
 </template>
 <script>
 export default {
     name: 'ConsoleMember',
-    props: ['console'],
+    props: ['console', 'user'],
+    
     emits: ['get-selected-console','delete-console'],
     data() {
         return {
-            consoleName: this.console.name,
-            consoleLogo: this.console.logo,
-            consoleId: this.console.id,
             emittedAttributes: {
                 name: this.console.name,
-                id: this.console.id
+                id: this.console.id,
             }
         }
     },
     methods: {
         deleteWithAlert(thisConsole) {
             if(confirm("Are you sure you want to delete " + thisConsole.name + "? All of its games will also be deleted!")) {
-                this.$emit('delete-console',this.consoleId)
+                this.$emit('delete-console', thisConsole.id)
             }
-        }
+        },
+        
     }
 }
 </script>
 <style scoped>
 * {
-
     box-sizing: border-box;
 }
 .list-member-wrapper {
@@ -51,12 +51,13 @@ export default {
   background-color: #1c1d1f;
   margin: 7px;
   margin-bottom: 0;
-  border-radius: 3px;
+  border-radius: 4px;
   border: 1px solid #c3c3c3;
   cursor: pointer;
   height: 75px;
   max-height: 75px;
   min-height: 75px;
+  overflow: hidden;
   
 }
 .list-member-wrapper:hover {
@@ -81,7 +82,7 @@ export default {
     border-bottom: .01px solid #9e9e9e;
     width: 100%;
 }
-.game-count {
+.meta-data {
     text-align: left;
     padding-left: 5px;
     font-size: 13px;

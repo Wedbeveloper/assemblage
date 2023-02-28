@@ -34,13 +34,11 @@ export default {
   },
   methods: {
     async getUserInfo(userInfo) {
-      console.log(userInfo)
       this.userInfo = userInfo[0].user;
       this.userToken = userInfo[0].token;
       this.userConsoles = userInfo[1];
       this.userGames = userInfo[2];
       this.isUserFetched = userInfo[3];
-      console.log("Logged in?: " + this.isUserFetched)
     },
     logOut(loggedOut) {
       this.isUserFetched = loggedOut;

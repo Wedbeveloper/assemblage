@@ -5,9 +5,8 @@
         </div>
         
         <div class="info-wrapper">
-
             <p class="game-name">{{ gameName }}</p>
-            <p class="date-added">Date Added:</p>
+            <p class="date-added">Date Added: {{ game['created_at'].slice(0, 10) }}</p>
         </div>
         
         <div class="delete-button-wrapper">
@@ -49,7 +48,7 @@ export default {
   margin-bottom: 0;
   min-height: 75px;
   max-height: 75px;
-  border-radius: 3px;
+  border-radius: 4px;
   border: 1px solid white;
   cursor: pointer;
   overflow: hidden;

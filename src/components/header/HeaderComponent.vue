@@ -1,7 +1,7 @@
 <template>
     <div class="header-wrapper">
         <div class="header-logo-wrapper">
-            <img src="../../assets/blank-dvd-case-and-disc-png.png" />
+            <iframe class="spinning-logo" src="https://gooeybonez.com/spinning-3d-logo/3DExperiementation/"></iframe>
         </div>
         
         <div class="header-title-wrapper">
@@ -42,7 +42,10 @@ export default {
     data() {
         return {
             userSignedIn: this.isUserFetched,
-            burgerNavHidden: true
+            burgerNavHidden: true,
+            iframe: {
+                src: window.location.href
+            }
         }
     },
     methods: {
@@ -79,7 +82,28 @@ h3 {
     border-left: 4px solid white;
     padding-left: 3px;
 }
-
+@media screen and (max-width: 600px) {
+    h1 {
+        text-align: center;
+    }
+    h3 {
+        font-size: 12px;
+        
+    }
+}
+.spinning-logo {
+    width: 80px;
+    height: 80px;
+    border: none;
+    margin: 0;
+    padding: 0;
+}
+@media screen and (max-width: 600px) {
+    .spinning-logo {
+        width: 60px;
+    height: 60px;
+    }
+}
 img {
     width: 50px;
 }
@@ -96,13 +120,13 @@ img {
     .header-wrapper {
         background: none;
         background-color: #640000;
+        justify-content: space-between;
     }
 }
 .header-logo-wrapper {
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: 5px;
 }
 .header-title-wrapper {
     display: flex;
@@ -116,6 +140,11 @@ img {
     margin-left: auto;
     justify-content: center;
     align-items: center;
+}
+@media screen and (max-width: 600px) {
+    .login-wrapper {
+        margin: 0;
+    }
 }
 
 .login-button {

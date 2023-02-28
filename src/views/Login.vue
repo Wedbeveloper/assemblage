@@ -43,21 +43,21 @@ export default {
     },
     async login() {
       let info = {email: this.email, password: this.password};
-       axios.post('https://api.gooeybonez.com/api/login', info, {
+        axios.post('https://api.gooeybonez.com/api/login', info, {
         headers: {'content-type':'application/json'}
       })
       .then(response => this.handleLoginResponse(response.data)).catch((error) => [this.error = 'Sorry, that Email or Password was incorrect', console.log(error)])
     },
     async getUserConsoles(userId) {
       let url = 'https://api.gooeybonez.com/api/consoles/' + userId
-       axios.get(url, {
+        axios.get(url, {
         headers: {'content-type':'application/json'}
       })
       .then(response => this.handleConsoleResponse(response.data)).catch((error) => console.log(error))
     },
     async getUserGames(userId) {
       let url = 'https://api.gooeybonez.com/api/games/' + userId
-       axios.get(url, {
+        axios.get(url, {
         headers: {'content-type':'application/json'}
       })
       .then(response => this.handleGameResponse(response.data)).catch((error) => console.log(error))
@@ -88,12 +88,12 @@ export default {
   box-sizing: border-box;
 }
 .form-wrapper {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    height: 100%;
-    width: 100%;  
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  width: 100%;  
 }
 .greeting-wrapper {
   width: 100%;
@@ -141,27 +141,27 @@ h4 {
   width: 100%;
 }
 .login-button {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background-color: #0a0b0f;
-    margin: 5px;
-    height: 35px;
-    min-width: 90px;
-    border: 1px solid #b0b5bd;
-    border-radius: 2px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #0a0b0f;
+  margin: 5px;
+  height: 35px;
+  min-width: 90px;
+  border: 1px solid #b0b5bd;
+  border-radius: 2px;
 }
 .login-button:hover {
-    background-color: #640000;
-    cursor: pointer;
+  background-color: #640000;
+  cursor: pointer;
 }
 .login-button p {
-    margin: 0;
-    text-align: center;
-    color: white;
+  margin: 0;
+  text-align: center;
+  color: white;
 }
 .forgot-password-wrapper {
-    color: #b0b5bd;
+  color: #b0b5bd;
 }
 .forgot-password-wrapper p:hover {
   color: #640000;

@@ -8,7 +8,7 @@
         <div class="interactables">
             <input v-model="this.consoleInput" @keyup="this.searchForConsole(this.consoleInput)" class="text-box" type="text"/>
             <div id="search-list-console-container" class="search-list-console-container">
-              <p @click="this.setConsoleTextValAndHide(value.name, 'search-list-console-container')" class="search-list-member" v-for="value in idgbConsoleResponse" :key="value.id">{{ value.name }}</p>
+              <p @click="this.setConsoleTextValAndHide(value.name, 'search-list-console-container')" class="search-list-member" v-for="value in igdbConsoleResponse" :key="value.id">{{ value.name }}</p>
             </div>
             <div @click="this.setCurrentConsoleThenAdd(this.consoleInput)" role="button" class="add-button">Add</div>
         </div>
@@ -17,7 +17,7 @@
         <div class="list-container">
           <h4>Consoles</h4>
           <div class="list-box">
-            <ConsoleMember v-for="value in consolesInList" :key="value.id" :console="value" @get-selected-console="setCurrentConsoleGames" @delete-console="deleteConsoleAndGames" @click="showGames"/>
+            <ConsoleMember v-for="value in consolesInList" :method="childGetGames" :key="value.id" :console="value" :user="user" @get-selected-console="setCurrentConsoleGames" @delete-console="deleteConsoleAndGames" @click="showGames"/>
           </div>
         </div>
       </div>
@@ -28,7 +28,7 @@
           <div class="interactables">
             <input v-if="consoleSelected" v-model="this.gameInput" @keyup="this.searchForGame(this.gameInput)" class="text-box" type="text"/>
             <div id="search-list-game-container" class="search-list-game-container">
-              <p @click="this.setGameTextValAndHide(value.name, 'search-list-game-container')" class="search-list-member" v-for="value in idgbGameResponse" :key="value.id">{{ value.name }}</p>
+              <p @click="this.setGameTextValAndHide(value.name, 'search-list-game-container')" class="search-list-member" v-for="value in igdbGameResponse" :key="value.id">{{ value.name }}</p>
             </div>
             <div v-if="consoleSelected" @click="this.setCurrentGameThenAdd(this.gameInput)" role="button" class="add-button">Add</div>
         </div>
@@ -80,10 +80,12 @@ export default {
       currentConsoleId: 0,
       consoleInput: '',
       gameInput: '',
-      idgbClientId: 'di4ew7ow32kxxcgie9bzbfc0ear8u5',
-      idgbResponse: {},
-      idgbGameResponse: {},
-      idgbConsoleResponse: {},
+      // Yes I know. I'll be putting this into my db eventually.
+      igdbClientId: 'di4ew7ow32kxxcgie9bzbfc0ear8u5',
+      igdbBearerKey: 'yorgrigyey90j4agtopv20nx58uagz',
+      igdbResponse: {},
+      igdbGameResponse: {},
+      igdbConsoleResponse: {},
       addedGame: {},
       addedConsole: {},
       eatResponse: '',
@@ -123,36 +125,36 @@ export default {
 
     //Text Input Console Search Handler
     searchForConsole(consoleInput) {
-      let requestAuthHeader = {['Client-ID']: this.idgbClientId, Authorization:'Bearer zan1k18v95233iy51sq6c15dlk8a53'}
+      let requestAuthHeader = {['Client-ID']: this.igdbClientId, Authorization: 'Bearer ' + this.igdbBearerKey}
       axios.post('https://enigmatic-taiga-74276.herokuapp.com/https://api.igdb.com/v4/platforms', 'search "' + consoleInput + '"; fields name;', {
         headers: requestAuthHeader
       })
-      .then(response => this.handleIdgbConsoleReturn(response.data)).catch((error) => console.log(error))
+      .then(response => this.handleigdbConsoleReturn(response.data)).catch((error) => console.log(error))
       let currentContainer = document.getElementById('search-list-console-container')
       this.controlBorder(consoleInput, currentContainer);
       if(currentContainer.style.display !== 'flex') {
         currentContainer.style.display = 'flex';
       } 
     },
-    handleIdgbConsoleReturn(res) {
-      this.idgbConsoleResponse = res;
+    handleigdbConsoleReturn(res) {
+      this.igdbConsoleResponse = res;
     },
 
     //Text Input Game Search Handler
     searchForGame(gameInput) {
-      let requestAuthHeader = {['Client-ID']: this.idgbClientId, Authorization:'Bearer zan1k18v95233iy51sq6c15dlk8a53'}
+      let requestAuthHeader = {['Client-ID']: this.igdbClientId, Authorization: 'Bearer ' + this.igdbBearerKey}
       axios.post('https://enigmatic-taiga-74276.herokuapp.com/https://api.igdb.com/v4/games', 'search "' + gameInput + '"; fields name, cover;', {
         headers: requestAuthHeader
       })
-      .then(response => this.handleIdgbGameReturn(response.data)).catch((error) => console.log(error))
+      .then(response => this.handleigdbGameReturn(response.data)).catch((error) => console.log(error))
       let currentContainer = document.getElementById('search-list-game-container')
       this.controlBorder(gameInput, currentContainer);
       if(currentContainer.style.display !== 'flex') {
         currentContainer.style.display = 'flex';
       } 
     },
-    handleIdgbGameReturn(res) {
-      this.idgbGameResponse = res;
+    handleigdbGameReturn(res) {
+      this.igdbGameResponse = res;
     },
 
     //Search Results Border Control
@@ -179,7 +181,7 @@ export default {
 
     //Console Add Button Handler
     setCurrentConsoleThenAdd(consoleName){
-      let requestAuthHeader = {['Client-ID']: this.idgbClientId, Authorization:'Bearer zan1k18v95233iy51sq6c15dlk8a53'}
+      let requestAuthHeader = {['Client-ID']: this.igdbClientId, Authorization: 'Bearer ' + this.igdbBearerKey}
       axios.post('https://enigmatic-taiga-74276.herokuapp.com/https://api.igdb.com/v4/platforms', 'search "' + consoleName + '"; fields name, platform_logo, slug;', {
         headers: requestAuthHeader
       })
@@ -192,7 +194,7 @@ export default {
     },
     getConsoleLogo(logoID) {
       let request = "'fields image_id; where id = " + logoID + ";'"
-      let requestAuthHeader = {['Client-ID']: this.idgbClientId, Authorization:'Bearer zan1k18v95233iy51sq6c15dlk8a53'}
+      let requestAuthHeader = {['Client-ID']: this.igdbClientId, Authorization: 'Bearer ' + this.igdbBearerKey}
       axios.post('https://enigmatic-taiga-74276.herokuapp.com/https://api.igdb.com/v4/platform_logos', request , {
         headers: requestAuthHeader
       })
@@ -206,10 +208,11 @@ export default {
         'belongs-to-user': this.user.id,
         name: this.addedConsole.name,
         logo: this.addedConsole.logo,
-        slug: this.addedConsole.slug
+        slug: this.addedConsole.slug,
+        ['num-games']: 0
 
       }
-      let requestAuthHeader = {'content-type':'application/json',Authorization:'Bearer ' + this.token}
+      let requestAuthHeader = {'content-type':'application/json',Authorization: 'Bearer ' + this.token}
       axios.post('https://api.gooeybonez.com/api/consoles', JSON.stringify(consoleToSend), {
         headers: requestAuthHeader
       })
@@ -234,18 +237,15 @@ export default {
       this.currentConsoleName = '';
     },
 
-
      //Game Add Button Handler
-     setCurrentGameThenAdd(gameName){
+    setCurrentGameThenAdd(gameName){
       gameName = '"' + gameName + '"'
       let request = "'fields name, cover, slug, first_release_date; where name = " + gameName + ";'"
-      console.log(request)
-      let requestAuthHeader = {['Client-ID']: this.idgbClientId, Authorization:'Bearer zan1k18v95233iy51sq6c15dlk8a53'}
+      let requestAuthHeader = {['Client-ID']: this.igdbClientId, Authorization: 'Bearer ' + this.igdbBearerKey}
       axios.post('https://enigmatic-taiga-74276.herokuapp.com/https://api.igdb.com/v4/games', request, {
         headers: requestAuthHeader
       })
       .then(response => this.handleAddedGameReturn(response.data)).catch((error) => console.log(error))
-      
     },
     handleAddedGameReturn(res) {
       this.addedGame = res[0];
@@ -253,7 +253,7 @@ export default {
     },
     getGameCover(coverID) {
       let request = "'fields url; where id = " + coverID + ";'"
-      let requestAuthHeader = {['Client-ID']: this.idgbClientId, Authorization:'Bearer zan1k18v95233iy51sq6c15dlk8a53'}
+      let requestAuthHeader = {['Client-ID']: this.igdbClientId, Authorization: 'Bearer ' + this.igdbBearerKey}
       axios.post('https://enigmatic-taiga-74276.herokuapp.com/https://api.igdb.com/v4/covers', request , {
         headers: requestAuthHeader
       })
@@ -269,12 +269,23 @@ export default {
         release: this.addedGame.first_release_date,
         slug: this.addedGame.slug
       }
-      console.log('Game to Send: ' + JSON.stringify(gameToSend))
       let requestAuthHeader = {'content-type':'application/json',Authorization:'Bearer ' + this.token}
       axios.post('https://api.gooeybonez.com/api/games', JSON.stringify(gameToSend), {
         headers: requestAuthHeader
       })
       .then(response => this.gamesInList.push(response.data)).catch((error) => console.log(error));
+
+      let currentConsoleId = gameToSend['belongs-to-console'];
+      
+      for (let curConsole of this.consolesInList) {
+        if (curConsole.id == currentConsoleId) {
+          let updatedConsole;
+          updatedConsole = curConsole;
+          updatedConsole['num-games']++;
+          curConsole = updatedConsole;
+          break;
+        }
+      }
     },
     // Game Delete Emit Handler
     deleteGame(gameId){
@@ -286,12 +297,30 @@ export default {
     },
     updateGameList(res, gameId) {
       this.logHttpResponse(res);
+      let currentConsoleId;
+      for (let game of this.gamesInList) {
+        if (game.id == gameId) {
+          currentConsoleId = game['belongs-to-console'];
+          break;
+        }
+      }
+      for (let curConsole of this.consolesInList) {
+        if (curConsole.id == currentConsoleId) {
+          let updatedConsole;
+          updatedConsole = curConsole;
+          updatedConsole['num-games']--;
+          curConsole = updatedConsole;
+          break;
+        }
+      }
       let updatedList = this.gamesInList.filter(game => game.id !== gameId)
+      console.log('Updated List: ')
+      console.log(res)
       this.gamesInList = updatedList;
     },
     logHttpResponse(res) {
       this.eatResponse = res;
-    }
+    },
   }
 }
 </script>
@@ -351,6 +380,7 @@ div::-webkit-scrollbar-thumb {
   border: 1px solid #535d6e;
   border-right: 1px dashed #535d6e;
   border-radius: 3px;
+  overflow: hidden;
 }
 @media screen and (max-width: 600px) {
   .column1{
@@ -369,6 +399,7 @@ div::-webkit-scrollbar-thumb {
   border: 1px solid #535d6e;
   border-left: 1px dashed #535d6e;
   border-radius: 3px;
+  overflow: hidden;
 }
 @media screen and (max-width: 600px) {
   .column2{
@@ -409,9 +440,9 @@ div::-webkit-scrollbar-thumb {
   position: absolute;
   display: flex;
   flex-direction: column;
-  background-color: black;
+  background-color: rgba(0, 0, 0, 0.92);
   min-width: 270px;
-  top: 27px;
+  top: 33px;
   left: 0;
   border-radius: 3px;
   z-index: 3;
@@ -420,12 +451,13 @@ div::-webkit-scrollbar-thumb {
   position: absolute;
   display: flex;
   flex-direction: column;
-  background-color: black;
+  background-color: rgba(0, 0, 0, 0.92);
   min-width: 270px;
-  top: 27px;
+  top: 33px;
   left: 0;
   border-radius: 3px;
   z-index: 3;
+  
 }
 .search-list-member {
   color: white;

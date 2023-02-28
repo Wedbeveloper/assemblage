@@ -73,29 +73,29 @@ export default {
   box-sizing: border-box;
 }
 .form-wrapper {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    height: 100%;
-    width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  width: 100%;
 }
 .greeting-wrapper {
   width: 100%;
 }
 .input-wrapper {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: space-between;
-    background-color: #171923;
-    padding-left: 10px;
-    padding-right: 10px;
-    border-radius: 5px;
-    width: 100%;
-    border: 1px solid white;
-    position: relative;
-    max-width: 300px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  background-color: #171923;
+  padding-left: 10px;
+  padding-right: 10px;
+  border-radius: 5px;
+  width: 100%;
+  border: 1px solid white;
+  position: relative;
+  max-width: 300px;
 }
 .cred-wrapper{
   display: flex;
@@ -127,24 +127,24 @@ h4 {
   height: 30px;
 }
 .register-button {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background-color: #0a0b0f;
-    margin-bottom: 16px;
-    height: 35px;
-    min-width: 90px;
-    border: 1px solid #b0b5bd;
-    border-radius: 2px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #0a0b0f;
+  margin-bottom: 16px;
+  height: 35px;
+  min-width: 90px;
+  border: 1px solid #b0b5bd;
+  border-radius: 2px;
 }
 .register-button:hover {
-    background-color: #640000;
-    cursor: pointer;
+  background-color: #640000;
+  cursor: pointer;
 }
 .register-button p {
-    margin: 0;
-    text-align: center;
-    color: white;
+  margin: 0;
+  text-align: center;
+  color: white;
 }
 h3 {
   color: #c3c3c3;
@@ -156,7 +156,6 @@ h3 {
   bottom: 130px;
 }
 hr {
-  border: 1px solid #b0b5bd
-
+  border: 1px solid #b0b5bd;
 }
 </style>
