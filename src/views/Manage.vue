@@ -80,7 +80,6 @@ export default {
       currentConsoleId: 0,
       consoleInput: '',
       gameInput: '',
-      // Yes I know. I'll be putting this into my db eventually.
       igdbClientId: 'di4ew7ow32kxxcgie9bzbfc0ear8u5',
       igdbBearerKey: 'yorgrigyey90j4agtopv20nx58uagz',
       igdbResponse: {},
